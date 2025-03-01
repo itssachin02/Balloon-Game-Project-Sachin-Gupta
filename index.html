@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Balloon Game</title>
+    <style>
+        body {
+            text-align: center;
+            background-color: #87CEEB;
+            background-image: url("asset/Symbol\ 27.png");
+        }
+        #game-container {
+            position: relative;
+            width: 800px;
+            height: 600px;
+            margin: auto;
+            border: 2px solid black;
+            overflow: hidden;
+            background-color: white;
+            background-image: url("asset/Symbol\ 3\ copy.png");
+        }
+        #balloon {
+            position: absolute;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            transition: width 0.2s ease, height 0.2s ease;
+        }
+        #pump-btn {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 20px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Balloon Game</h1>
+    <div id="game-container">
+        <img id="balloon" src="asset/balloons macking_010005.png" alt="Balloon">
+    </div>
+    <button id="pump-btn">Pump</button>
+    <script>
+        let balloon = document.getElementById("balloon");
+        let pumpBtn = document.getElementById("pump-btn");
+        let inflatedSize = 50;
+        let isFlying = false;
+
+        pumpBtn.addEventListener("click", function() {
+            if (!isFlying) {
+                inflatedSize += 10;
+                balloon.style.width = inflatedSize + "px";
+                balloon.style.height = inflatedSize + "px";
+                
+                if (inflatedSize >= 150) {
+                    startFlying();
+                }
+            }
+        });
+
+        function startFlying() {
+            isFlying = true;
+            let moveInterval = setInterval(() => {
+                let newX = Math.random() * (800 - inflatedSize);
+                let newY = Math.random() * (600 - inflatedSize);
+                balloon.style.left = newX + "px";
+                balloon.style.top = newY + "px";
+            }, 500);
+            
+            balloon.addEventListener("click", function() {
+                clearInterval(moveInterval);
+                balloon.src = "burst.png";
+                setTimeout(() => { balloon.style.display = "none"; }, 500);
+            });
+        }
+    </script>
+</body>
+</html>
